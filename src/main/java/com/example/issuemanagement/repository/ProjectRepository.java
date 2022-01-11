@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface ProjectRepository extends JpaRepository <Project,Long> {
 
-    List<Project> getAllByProjectCode(String projectCode);//parametre verdiğim proje kodu ile git bana o kayıtları getir
+    Project getByProjectCode(String projectCode);//parametre verdiğim proje kodu ile git bana o kayıtları getir
     List<Project> getByProjectCodeContains(String projectCode);//projectCode u içeren
     Page<Project> findAll (Pageable pageable);//sayfalama yapabilmek için
 

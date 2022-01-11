@@ -1,18 +1,17 @@
 package com.example.issuemanagement.api;
 
 import com.example.issuemanagement.dto.ProjectDto;
+import com.example.issuemanagement.entity.Project;
 import com.example.issuemanagement.service.imp.ProjectServiceImpl;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/project")
 public class ProjectController {
 
     /*
-    tüm lontrollerlar içerisinde http metodlarını bağlıycaz
+    tüm controllerlar içerisinde http metodlarını bağlıycaz
     Get Post Put Delete
      */
 
@@ -24,17 +23,23 @@ public class ProjectController {
         this.projectServiceImp=projectServiceImp;
     }
 
-      @GetMapping          //metodu web restfull servi metodu haline getirmek için
-    public ResponseEntity<ProjectDto> getById(){//ResponseEntity: api metodlarımızın veya
+      @GetMapping("/{id}")       //metodu web restfull servi metodu haline getirmek için
+    public ResponseEntity<ProjectDto> getById(@PathVariable("id") Long id){//ResponseEntity: api metodlarımızın veya
          // tüm web servislerimiz içerisinde geiştireceğimiz metodlarımızın ve apilerimizin dışarıda
         // ortak bir imzaya sahip olması için kullanılır geri doneceğimiz tipi paremetre olarak alır(ProjectDto)
        // aslında entity şeması dönmemiz gerekir ancak entittyi dışarı kapatıp dış tarafla dtolar üzerinden konuşacağız.
 
-        ProjectDto projectDto = projectServiceImp.getById(1L);//idsi bir olan long tipindeki değişkeni dönsün
+        ProjectDto projectDto = projectServiceImp.getById(id);//idsi bir olan long tipindeki değişkeni dönsün
         return ResponseEntity.ok(projectDto);
-
-
     }
+
+    @PostMapping()
+    public ResponseEntity<ProjectDto> createProject(@RequestBody ProjectDto project){//RequestBody:nesnenin requestbodysini otomatik gönderir
+        return ResponseEntity.ok(projectServiceImp.save(project));
+    }
+
+
+
 
 
 
